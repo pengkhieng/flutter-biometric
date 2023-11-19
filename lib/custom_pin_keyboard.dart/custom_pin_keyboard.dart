@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomPinKeyBoard extends StatefulWidget {
   const CustomPinKeyBoard({super.key});
@@ -14,49 +15,46 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
 
   /// this widget will be use for each digit
   Widget numButton(int number) {
-    return Container(
-      color: Colors.green,
-      // padding: const EdgeInsets.only(top: 16),
-      child: TextButton(
-        onPressed: () {
-          setState(() {
-            if (enteredPin.length < 4) {
-              enteredPin += number.toString();
-            }
-            if (enteredPin.length == 4) {
-              Future.delayed(Duration(milliseconds: 100), () {
-                setState(() {
-                  enteredPin = '';
-                });
-              });
-            }
-            if (enteredPin.length == 4) {
-              print(enteredPin);
-              if (value1.isEmpty) {
-                value1 = enteredPin;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (enteredPin.length < 4) {
+            enteredPin += number.toString();
+          }
+          if (enteredPin.length == 4) {
+            Future.delayed(Duration(milliseconds: 100), () {
+              setState(() {
                 enteredPin = '';
-              } else if (value1.isNotEmpty && value2.isEmpty) {
-                if (value1 == enteredPin) {
-                  value2 = enteredPin;
-                  print('PINs matched: $value1');
-                  print("go to next route here");
-                } else {
-                  print('PINs did not match. Try again.');
-                }
+              });
+            });
+          }
+          if (enteredPin.length == 4) {
+            print(enteredPin);
+            if (value1.isEmpty) {
+              value1 = enteredPin;
+              enteredPin = '';
+            } else if (value1.isNotEmpty && value2.isEmpty) {
+              if (value1 == enteredPin) {
+                value2 = enteredPin;
+                print('PINs matched: $value1');
+                print("go to next route here");
+              } else {
+                print('PINs did not match. Try again.');
               }
             }
-            print('Value 1: $value1');
-            print('Value 2: $value2');
-          });
-        },
-        child: Container(
-          child: Text(
-            number.toString(),
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
+          }
+          print('Value 1: $value1');
+          print('Value 2: $value2');
+        });
+      },
+      child: Container(
+        color: Colors.amber,
+        child: Text(
+          number.toString(),
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
         ),
       ),
@@ -92,7 +90,7 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
                 ),
               ),
             ),
-            const SizedBox(height: 50),
+            Spacer(),
 
             /// pin code area
             Row(
@@ -120,31 +118,29 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
                 },
               ),
             ),
-
+            SizedBox(
+              height: 50,
+            ),
             Column(
               children: [
                 for (var i = 0; i < 3; i++)
                   Container(
-                    color: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 20,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: List.generate(
-                          3,
-                          (index) => numButton(1 + 3 * i + index),
-                        ).toList(),
-                      ),
+                    height: 100,
+                    margin: EdgeInsets.all(2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(
+                        3,
+                        (index) => numButton(1 + 3 * i + index),
+                      ).toList(),
                     ),
                   ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 20,
-                  ),
+                SizedBox(
+                  height: 3,
+                ),
+                Container(
+                  color: Colors.amber,
+                  padding: EdgeInsets.symmetric(horizontal: 2),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -152,6 +148,9 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
                         flex: 1,
                         child: Container(
                           color: Colors.green,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 26,
+                          ),
                           child: TextButton(
                             onPressed: () {},
                             child: const Icon(
@@ -162,9 +161,15 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 4,
+                      ),
                       Expanded(
                         flex: 1,
                         child: numButton(0),
+                      ),
+                      SizedBox(
+                        width: 4,
                       ),
                       Expanded(
                         flex: 1,
@@ -172,6 +177,9 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
                           onTap: () {},
                           child: Container(
                             color: Colors.green,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 26,
+                            ),
                             child: TextButton(
                               onPressed: () {
                                 setState(
