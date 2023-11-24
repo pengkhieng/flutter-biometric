@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:local_auth/local_auth.dart';
 
-class HomePageController extends GetxController {
+class HomePageController2 extends GetxController {
   final LocalAuthentication auth = LocalAuthentication();
   SupportState supportState = SupportState.unknown;
   bool? canCheckBiometrics;

@@ -1,20 +1,20 @@
 import 'package:biolocalauth/enum/enum.dart';
 import 'package:biolocalauth/error_page/error_page.dart';
-import 'package:biolocalauth/home_page/home_page_controller.dart';
+import 'package:biolocalauth/home_page2/home_page_controller2.dart';
 import 'package:biolocalauth/next_page/next_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/instance_manager.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage2 extends StatefulWidget {
+  const HomePage2({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage2> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  HomePageController _controller = Get.find<HomePageController>();
+class _HomePageState extends State<HomePage2> {
+  HomePageController2 _controller = Get.find<HomePageController2>();
   @override
   void initState() {
     super.initState();
@@ -47,22 +47,22 @@ class _HomePageState extends State<HomePage> {
                       const Text('This device is supported')
                     else
                       const Text('This device is not supported'),
-                    // const Divider(height: 100),
-                    // Text(
-                    //     'Can check biometrics: ${controller.canCheckBiometrics}\n'),
-                    // ElevatedButton(
-                    //   onPressed: controller.checkBiometrics,
-                    //   child: const Text('Check biometrics'),
-                    // ),
-                    // const Divider(height: 100),
-                    // Text(
-                    //     'Available biometrics: ${controller.availableBiometrics}\n'),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     controller.getAvailableBiometrics();
-                    //   },
-                    //   child: const Text('Get available biometrics'),
-                    // ),
+                    const Divider(height: 100),
+                    Text(
+                        'Can check biometrics: ${controller.canCheckBiometrics}\n'),
+                    ElevatedButton(
+                      onPressed: controller.checkBiometrics,
+                      child: const Text('Check biometrics'),
+                    ),
+                    const Divider(height: 100),
+                    Text(
+                        'Available biometrics: ${controller.availableBiometrics}\n'),
+                    ElevatedButton(
+                      onPressed: () {
+                        controller.getAvailableBiometrics();
+                      },
+                      child: const Text('Get available biometrics'),
+                    ),
                     const Divider(height: 100),
                     Text('Current State: ${controller.authorized}\n'),
                     if (controller.isAuthenticating)

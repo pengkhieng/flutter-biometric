@@ -1,3 +1,4 @@
+import 'package:biolocalauth/home_page2/home_page2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -152,7 +153,12 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
                             vertical: 26,
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => HomePage2(),
+                              );
+                            },
                             child: const Icon(
                               Icons.face_unlock_sharp,
                               color: Colors.white,
