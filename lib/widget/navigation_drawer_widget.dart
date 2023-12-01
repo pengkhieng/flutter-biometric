@@ -1,10 +1,15 @@
-import 'package:biolocalauth/page/favourites_page.dart';
-import 'package:biolocalauth/page/people_page.dart';
 import 'package:biolocalauth/page/user_page.dart';
+import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter/material.dart';
 
-class NavigationDrawerWidget extends StatelessWidget {
+class NavigationDrawerWidget extends StatefulWidget {
+  @override
+  State<NavigationDrawerWidget> createState() => _NavigationDrawerWidgetState();
+}
+
+class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
+
   @override
   Widget build(BuildContext context) {
     final name = 'Sarah Abs';
@@ -23,7 +28,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               email: email,
               onClicked: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => UserPage(
-                  name: 'Sarah Abs',
+                  name: name,
                   urlImage: urlImage,
                 ),
               )),
@@ -32,93 +37,142 @@ class NavigationDrawerWidget extends StatelessWidget {
               padding: padding,
               child: Column(
                 children: [
-                  const SizedBox(height: 12),
-                  buildSearchField(),
-                  const SizedBox(height: 24),
-                  buildMenuItem(
-                    text: 'People',
-                    icon: Icons.people,
-                    onClicked: () => selectedItem(context, 0),
+                  Container(
+                    child: buildMenuItem(
+                      text: 'Plugins',
+                      icon: Icons.account_tree_outlined,
+                    ),
+                    color: Colors.blueAccent,
                   ),
                   const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Favourites',
-                    icon: Icons.favorite_border,
-                    onClicked: () => selectedItem(context, 1),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {});
+                    },
+                    child: Container(
+                      child: buildMenuItem(
+                        text: 'Notifications',
+                        icon: Icons.notifications_outlined,
+                      ),
+                      color: Colors.green,
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Workflow',
-                    icon: Icons.workspaces_outline,
-                    onClicked: () => selectedItem(context, 2),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Updates',
-                    icon: Icons.update,
-                    onClicked: () => selectedItem(context, 3),
-                  ),
-                  const SizedBox(height: 24),
-                  Divider(color: Colors.white70),
-                  const SizedBox(height: 24),
-                  buildMenuItem(
-                    text: 'Plugins',
-                    icon: Icons.account_tree_outlined,
-                    onClicked: () => selectedItem(context, 4),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
-                    onClicked: () => selectedItem(context, 5),
+                  Container(
+                    child: CommentTreeWidget<Comment, Comment>(
+                      Comment(
+                        avatar: 'null',
+                        userName: 'null',
+                        content: 'This is comment 1',
+                      ),
+                      [
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                        Comment(
+                          avatar: 'null',
+                          userName: 'null',
+                          content: 'This is comment 2',
+                        ),
+                      ],
+                      treeThemeData: TreeThemeData(
+                          lineColor: Colors.grey[500]!, lineWidth: 2),
+                      avatarRoot: (context, data) => const PreferredSize(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 0.0),
+                          // child: CircleAvatar(
+                          //   radius: 5,
+                          //   backgroundColor: Colors.orange,
+                          // ),
+                        ),
+                        preferredSize: Size.fromRadius(15),
+                      ),
+                      avatarChild: (context, data) => const PreferredSize(
+                        child: Padding(
+                          padding: EdgeInsets.all(0.0),
+                          // child: CircleAvatar(
+                          //   radius: 5,
+                          //   backgroundColor: Colors.green,
+                          // ),
+                        ),
+                        preferredSize: Size.fromRadius(15),
+                      ),
+                      contentChild: (context, data) {
+                        return GestureDetector(
+                          onTap: () {
+                            print('ចែករំលែកលំហូរមកខ្មុំ');
+                          },
+                          child: Container(
+                            color: Colors.amber,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            child: Text(
+                              'ចែករំលែកលំហូរមកខ្មុំ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  ?.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black),
+                            ),
+                          ),
+                        );
+                      },
+                      contentRoot: (context, data) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(0),
+                              // child: Text(
+                              //   'dangngocduc',
+                              //   style: Theme.of(context)
+                              //       .textTheme
+                              //       .caption
+                              //       ?.copyWith(
+                              //           fontSize: 12,
+                              //           fontWeight: FontWeight.w700,
+                              //           color: Colors.black),
+                              // ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -168,30 +222,6 @@ class NavigationDrawerWidget extends StatelessWidget {
         ),
       );
 
-  Widget buildSearchField() {
-    final color = Colors.white;
-
-    return TextField(
-      style: TextStyle(color: color),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        hintText: 'Search',
-        hintStyle: TextStyle(color: color),
-        prefixIcon: Icon(Icons.search, color: color),
-        filled: true,
-        fillColor: Colors.white12,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-      ),
-    );
-  }
-
   Widget buildMenuItem({
     required String text,
     required IconData icon,
@@ -206,22 +236,5 @@ class NavigationDrawerWidget extends StatelessWidget {
       hoverColor: hoverColor,
       onTap: onClicked,
     );
-  }
-
-  void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop();
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PeoplePage(),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FavouritesPage(),
-        ));
-        break;
-    }
   }
 }
