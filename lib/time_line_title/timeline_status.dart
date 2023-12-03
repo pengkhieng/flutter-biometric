@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
 
-const kTileHeight = 50.0;
+const kTileHeight = 100.0;
 
 class TimelineStatusPage extends StatelessWidget {
   @override
@@ -13,10 +13,6 @@ class TimelineStatusPage extends StatelessWidget {
           child: Row(
             children: [
               _Timeline1(),
-              // SizedBox(width: 12.0),
-              // _Timeline2(),
-              // SizedBox(width: 12.0),
-              // _Timeline3(),
             ],
           ),
         ),
@@ -46,9 +42,13 @@ class _Timeline1 extends StatelessWidget {
           contentsBuilder: (_, __) => _EmptyContents(),
           connectorBuilder: (_, index, __) {
             if (index == 0) {
-              return DashedLineConnector(color: Color(0xff6ad192));
+              return DashedLineConnector(
+                color: Colors.grey,
+              );
             } else {
-              return SolidLineConnector();
+              return SolidLineConnector(
+                color: Colors.green,
+              );
             }
           },
           indicatorBuilder: (_, index) {
@@ -82,130 +82,26 @@ class _Timeline1 extends StatelessWidget {
                 );
               case _TimelineStatus.todo:
               default:
-                return OutlinedDotIndicator(
-                  color: Colors.yellow,
-                  backgroundColor: Color(0xffe6e7e9),
+                return
+                    // OutlinedDotIndicator(
+                    //   color: Colors.green,
+                    //   backgroundColor: Colors.orange,
+                    // );
+                    Container(
+                  padding: EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.blue,
+                  ),
+                  child: Icon(
+                    Icons.check,
+                    size: 12,
+                    color: Colors.red,
+                  ),
                 );
             }
           },
           itemExtentBuilder: (_, __) => kTileHeight,
-          itemCount: data.length,
-        ),
-      ),
-    );
-  }
-}
-
-class _Timeline2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    List<_TimelineStatus> data = [
-      _TimelineStatus.done,
-      _TimelineStatus.inProgress,
-      _TimelineStatus.inProgress,
-      _TimelineStatus.todo
-    ];
-
-    return Flexible(
-      child: Timeline.tileBuilder(
-        theme: TimelineThemeData(
-          nodePosition: 0,
-          color: Colors.blue,
-          connectorTheme: ConnectorThemeData(
-            thickness: 3.0,
-          ),
-        ),
-        padding: EdgeInsets.only(top: 20.0),
-        builder: TimelineTileBuilder.connected(
-          indicatorBuilder: (context, index) {
-            return DotIndicator(
-              color: data[index].isInProgress ? Color(0xff193fcc) : null,
-            );
-          },
-          connectorBuilder: (_, index, connectorType) {
-            var color;
-            if (index + 1 < data.length - 1) {
-              color = data[index].isInProgress && data[index + 1].isInProgress
-                  ? Color(0xff193fcc)
-                  : null;
-            }
-            return SolidLineConnector(
-              indent: connectorType == ConnectorType.start ? 0 : 2.0,
-              endIndent: connectorType == ConnectorType.end ? 0 : 2.0,
-              color: color,
-            );
-          },
-          contentsBuilder: (_, __) => _EmptyContents(),
-          itemExtentBuilder: (_, __) {
-            return kTileHeight;
-          },
-          itemCount: data.length,
-        ),
-      ),
-    );
-  }
-}
-
-class _Timeline3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    List<_TimelineStatus> data = [
-      _TimelineStatus.done,
-      _TimelineStatus.inProgress,
-      _TimelineStatus.inProgress,
-      _TimelineStatus.todo
-    ];
-
-    return Flexible(
-      child: Timeline.tileBuilder(
-        theme: TimelineThemeData(
-          nodePosition: 0,
-          nodeItemOverlap: true,
-          connectorTheme: ConnectorThemeData(
-            color: Color(0xffe6e7e9),
-            thickness: 15.0,
-          ),
-        ),
-        padding: EdgeInsets.only(top: 20.0),
-        builder: TimelineTileBuilder.connected(
-          indicatorBuilder: (context, index) {
-            final status = data[index];
-            return OutlinedDotIndicator(
-              color:
-                  status.isInProgress ? Color(0xff6ad192) : Color(0xffe6e7e9),
-              backgroundColor:
-                  status.isInProgress ? Color(0xffd4f5d6) : Color(0xffc2c5c9),
-              borderWidth: status.isInProgress ? 3.0 : 2.5,
-            );
-          },
-          connectorBuilder: (context, index, connectorType) {
-            var color;
-            if (index + 1 < data.length - 1 &&
-                data[index].isInProgress &&
-                data[index + 1].isInProgress) {
-              color = data[index].isInProgress ? Color(0xff6ad192) : null;
-            }
-            return SolidLineConnector(
-              color: color,
-            );
-          },
-          contentsBuilder: (context, index) {
-            var height;
-            if (index + 1 < data.length - 1 &&
-                data[index].isInProgress &&
-                data[index + 1].isInProgress) {
-              height = kTileHeight - 10;
-            } else {
-              height = kTileHeight + 5;
-            }
-            return SizedBox(
-              height: height,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: _EmptyContents(),
-              ),
-            );
-          },
           itemCount: data.length,
         ),
       ),
@@ -218,10 +114,10 @@ class _EmptyContents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 10.0),
-      height: 10.0,
+      height: 60.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2.0),
-        color: Color(0xffe6e7e9),
+        color: Colors.yellow,
       ),
     );
   }

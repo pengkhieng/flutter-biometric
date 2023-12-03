@@ -18,7 +18,7 @@ class _SideBarPageState extends State<SideBarPage> {
         drawer: NavigationDrawerWidget(),
         appBar: AppBar(title: Text('Custom Text')),
         // body: TimelinePage(),
-        body: PackageDeliveryTrackingPage(),
+        // body: PackageDeliveryTrackingPage(),
         // body: ProcessTimelinePage(),
         // body: TimelineStatusPage(),
       );

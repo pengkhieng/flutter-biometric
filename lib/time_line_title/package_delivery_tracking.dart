@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
 
-const kTileHeight = 50.0;
-
 class PackageDeliveryTrackingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,30 +9,19 @@ class PackageDeliveryTrackingPage extends StatelessWidget {
         itemCount: 1,
         itemBuilder: (context, index) {
           final data = _data(index + 1);
-          return Center(
-            child: Container(
-              width: 360.0,
-              child: Card(
-                margin: EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.all(20.0),
-                    //   child: _OrderTitle(
-                    //     orderInfo: data,
-                    //   ),
-                    // ),
-                    Divider(height: 1.0),
-                    _DeliveryProcesses(processes: data.deliveryProcesses),
-                    Divider(height: 1.0),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(20.0),
-                    //   child: _OnTimeBar(driver: data.driverInfo),
-                    // ),
-                  ],
+          return Container(
+            decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(16)),
+            margin: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: _DeliveryProcesses(processes: data.deliveryProcesses),
                 ),
-              ),
+              ],
             ),
           );
         },
@@ -133,7 +120,7 @@ class _DeliveryProcesses extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTextStyle(
       style: TextStyle(
-        color: Color(0xff9b9b9b),
+        color: Colors.green,
         fontSize: 12.5,
       ),
       child: Padding(
@@ -163,12 +150,15 @@ class _DeliveryProcesses extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      processes[index].name,
+                      processes[index].name, // put title here
                       style: DefaultTextStyle.of(context).style.copyWith(
                             fontSize: 18.0,
                           ),
                     ),
-                    _InnerTimeline(messages: processes[index].messages),
+                    Container(
+                      height: 50,
+                      color: Colors.green,
+                    )
                   ],
                 ),
               );
@@ -190,7 +180,7 @@ class _DeliveryProcesses extends StatelessWidget {
               }
             },
             connectorBuilder: (_, index, ___) => DashedLineConnector(
-              color: processes[index].isCompleted ? Color(0xff66c97f) : null,
+              color: processes[index].isCompleted ? Colors.green : null,
             ),
           ),
         ),
@@ -262,6 +252,7 @@ _OrderInfo _data(int id) => _OrderInfo(
             _DeliveryMessage('11:30am', 'Reached halfway mark'),
           ],
         ),
+
         _DeliveryProcess(
           'In Transit',
           messages: [
@@ -270,7 +261,7 @@ _OrderInfo _data(int id) => _OrderInfo(
           ],
         ),
         _DeliveryProcess.complete(),
-        _DeliveryProcess.complete(),
+        // _DeliveryProcess.complete(),
       ],
     );
 
