@@ -1,5 +1,5 @@
+import 'package:biolocalauth/detail_file/detail_file.dart';
 import 'package:biolocalauth/time_line_title/package_delivery_tracking.dart';
-import 'package:biolocalauth/time_line_title/process_timeline.dart';
 import 'package:biolocalauth/time_line_title/time_line_title.dart';
 import 'package:biolocalauth/time_line_title/timeline_status.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 1,
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Text('TabBar'),
@@ -31,9 +31,9 @@ class _MainPageState extends State<MainPage> {
               Tab(
                 icon: Icon(Icons.brightness_5_sharp),
               ),
-              // Tab(
-              //   icon: Icon(Icons.scale),
-              // ),
+              Tab(
+                icon: Icon(Icons.scale),
+              ),
             ],
           ),
         ),
@@ -42,6 +42,7 @@ class _MainPageState extends State<MainPage> {
             TimelinePage(),
             PackageDeliveryTrackingPage(),
             TimelineStatusPage(),
+            DetailFile()
           ],
         ),
       ),

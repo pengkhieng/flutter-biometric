@@ -41,6 +41,7 @@ dependencies:
   comment_tree: ^0.3.0
   timeline_tile: ^2.0.0
   timelines: ^0.1.0
+  flutter_svg: 2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -57,12 +58,16 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+flutter: 
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/svgs/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+ 
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:timelines/timelines.dart';
 
 const kTileHeight = 100.0;
@@ -28,7 +29,7 @@ class _Timeline1 extends StatelessWidget {
     return Flexible(
       child: Timeline.tileBuilder(
         theme: TimelineThemeData(
-          nodePosition: 0,
+          nodePosition: 0.1,
           connectorTheme: ConnectorThemeData(
             thickness: 3.0,
             color: Colors.green,
@@ -54,30 +55,45 @@ class _Timeline1 extends StatelessWidget {
           indicatorBuilder: (_, index) {
             switch (data[index]) {
               case _TimelineStatus.done:
-                return DotIndicator(
-                  color: Color(0xff6ad192),
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 10.0,
-                  ),
+                return Container(
+                  width: 25,
+                  height: 25,
+                  color: Colors.green,
+                  // child: DotIndicator(
+                  //   color: Color(0xff6ad192),
+                  //   child: Icon(
+                  //     Icons.check,
+                  //     color: Colors.white,
+                  //     size: 10.0,
+                  //   ),
+                  // ),
                 );
               case _TimelineStatus.sync:
-                return DotIndicator(
-                  color: Color(0xff6ad192),
-                  child: Icon(
-                    Icons.check,
-                    size: 10.0,
-                    color: Colors.white,
+                return Container(
+                  width: 25,
+                  height: 25,
+                  color: Colors.green,
+                  child: DotIndicator(
+                    color: Color(0xff6ad192),
+                    child: Icon(
+                      Icons.check,
+                      size: 10.0,
+                      color: Colors.white,
+                    ),
                   ),
                 );
               case _TimelineStatus.inProgress:
-                return DotIndicator(
-                  color: Color(0xff6ad192),
-                  child: Icon(
-                    Icons.check,
-                    size: 10.0,
-                    color: Colors.white,
+                return Container(
+                  width: 25,
+                  height: 25,
+                  color: Colors.green,
+                  child: DotIndicator(
+                    color: Color(0xff6ad192),
+                    child: Icon(
+                      Icons.check,
+                      size: 10.0,
+                      color: Colors.white,
+                    ),
                   ),
                 );
               case _TimelineStatus.todo:
@@ -88,15 +104,15 @@ class _Timeline1 extends StatelessWidget {
                     //   backgroundColor: Colors.orange,
                     // );
                     Container(
-                  padding: EdgeInsets.all(2),
+                  padding: EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     color: Colors.blue,
                   ),
-                  child: Icon(
-                    Icons.check,
-                    size: 12,
-                    color: Colors.red,
+                  child: SvgPicture.asset(
+                    SvgAsset.security_fill_icon,
+                    width: 18,
+                    color: Colors.white,
                   ),
                 );
             }
@@ -132,4 +148,18 @@ enum _TimelineStatus {
 
 extension on _TimelineStatus {
   bool get isInProgress => this == _TimelineStatus.inProgress;
+}
+
+class SvgAsset {
+  static final security_fill_icon = _getSvgPath('security_fill_icon.svg');
+
+  static String _getSvgPath(String svgName) => AssetHelper.svgPath(svgName);
+}
+
+class AssetHelper {
+  static String svgPath(String assetName) {
+    const svgsPath = 'assets/svgs';
+    final path = '$svgsPath/$assetName';
+    return path;
+  }
 }

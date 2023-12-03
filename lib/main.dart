@@ -1,4 +1,5 @@
 import 'package:biolocalauth/custom_pin_keyboard.dart/custom_pin_keyboard.dart';
+import 'package:biolocalauth/detail_file/detail_file.dart';
 import 'package:biolocalauth/home_page2/home_page_controller2.dart';
 import 'package:biolocalauth/main_page/main_page.dart';
 import 'package:biolocalauth/sidebar_page/sidebar_page.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
       // home: TreeListPage(title: 'Tree Comment'),
       // home: SideBarPage(),
       home: MainPage(),
+      // home: DetailFile(),
     );
   }
 }

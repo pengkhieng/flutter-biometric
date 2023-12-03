@@ -18,7 +18,7 @@ class PackageDeliveryTrackingPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10.0),
+                  // padding: const EdgeInsets.only(top: 10.0),
                   child: _DeliveryProcesses(processes: data.deliveryProcesses),
                 ),
               ],
@@ -30,35 +30,35 @@ class PackageDeliveryTrackingPage extends StatelessWidget {
   }
 }
 
-class _OrderTitle extends StatelessWidget {
-  const _OrderTitle({
-    Key? key,
-    required this.orderInfo,
-  }) : super(key: key);
+// class _OrderTitle extends StatelessWidget {
+//   const _OrderTitle({
+//     Key? key,
+//     required this.orderInfo,
+//   }) : super(key: key);
 
-  final _OrderInfo orderInfo;
+//   final _OrderInfo orderInfo;
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Delivery #${orderInfo.id}',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Spacer(),
-        Text(
-          '${orderInfo.date.day}/${orderInfo.date.month}/${orderInfo.date.year}',
-          style: TextStyle(
-            color: Color(0xffb6b2b2),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         Text(
+//           'Delivery #${orderInfo.id}',
+//           style: TextStyle(
+//             fontWeight: FontWeight.bold,
+//           ),
+//         ),
+//         Spacer(),
+//         Text(
+//           '${orderInfo.date.day}/${orderInfo.date.month}/${orderInfo.date.year}',
+//           style: TextStyle(
+//             color: Color(0xffb6b2b2),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class _InnerTimeline extends StatelessWidget {
   const _InnerTimeline({
@@ -123,8 +123,8 @@ class _DeliveryProcesses extends StatelessWidget {
         color: Colors.green,
         fontSize: 12.5,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
+      child: Container(
+        padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
         child: FixedTimeline.tileBuilder(
           theme: TimelineThemeData(
             nodePosition: 0,
@@ -157,14 +157,16 @@ class _DeliveryProcesses extends StatelessWidget {
                     ),
                     Container(
                       height: 50,
-                      color: Colors.green,
+                      color: Colors.orange,
                     )
                   ],
                 ),
               );
             },
             indicatorBuilder: (_, index) {
-              if (processes[index].isCompleted) {
+              if (index == 2) {
+                return Container();
+              } else if (processes[index].isCompleted) {
                 return DotIndicator(
                   color: Color(0xff66c97f),
                   child: Icon(
@@ -174,8 +176,16 @@ class _DeliveryProcesses extends StatelessWidget {
                   ),
                 );
               } else {
-                return OutlinedDotIndicator(
-                  borderWidth: 2.5,
+                // return OutlinedDotIndicator(
+                //   borderWidth: 2.5,
+                // );
+                return DotIndicator(
+                  color: Colors.blue,
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.yellow,
+                    size: 12.0,
+                  ),
                 );
               }
             },
