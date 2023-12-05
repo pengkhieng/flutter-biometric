@@ -1,4 +1,9 @@
+import 'package:biolocalauth/time_line_title/timeline_status.dart';
+import 'package:comment_tree/data/comment.dart';
+import 'package:comment_tree/widgets/comment_tree_widget.dart';
+import 'package:comment_tree/widgets/tree_theme_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:timelines/timelines.dart';
 
 class PackageDeliveryTrackingPage extends StatelessWidget {
@@ -156,9 +161,82 @@ class _DeliveryProcesses extends StatelessWidget {
                           ),
                     ),
                     Container(
-                      height: 50,
-                      color: Colors.orange,
-                    )
+                      child: CommentTreeWidget<Comment, Comment>(
+                        Comment(
+                          avatar: '',
+                          userName: '',
+                          content: processes[index].desc,
+                        ),
+                        [
+                          Comment(
+                            avatar: '',
+                            userName: '',
+                            content: processes[index].desc1,
+                          )
+                        ],
+                        treeThemeData: TreeThemeData(
+                            lineColor: Colors.grey[500]!, lineWidth: 2),
+                        avatarRoot: (context, data) => const PreferredSize(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(bottom: .0, left: 4, top: 4),
+                            child: CircleAvatar(
+                              radius: 5,
+                              backgroundColor: Colors.orange,
+                            ),
+                          ),
+                          preferredSize: Size.fromRadius(10),
+                        ),
+                        avatarChild: (context, data) => const PreferredSize(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 12.0, left: 8, right: 4, bottom: 0),
+                            child: CircleAvatar(
+                              radius: 5,
+                              backgroundColor: Colors.green,
+                            ),
+                          ),
+                          preferredSize: Size.fromRadius(18),
+                        ),
+                        contentChild: (context, data) {
+                          return Container(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              '${data.content}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  ?.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black),
+                            ),
+                          );
+                        },
+                        contentRoot: (context, data) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 0),
+                                child: Text(
+                                  '${data.content}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      ?.copyWith(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      padding: const EdgeInsets.only(top: 12),
+                    ),
                   ],
                 ),
               );
@@ -180,17 +258,27 @@ class _DeliveryProcesses extends StatelessWidget {
                 //   borderWidth: 2.5,
                 // );
                 return DotIndicator(
-                  color: Colors.blue,
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.yellow,
-                    size: 12.0,
+                  size: 40,
+                  color: const Color.fromARGB(255, 203, 202, 202),
+                  child:
+                      //  Icon(
+                      //   Icons.check,
+                      //   color: Colors.yellow,
+                      //   size: 12.0,
+                      // ),
+                      Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset(
+                      SvgAsset.security_fill_icon,
+                      width: 24,
+                      color: Color.fromARGB(255, 2, 112, 209),
+                    ),
                   ),
                 );
               }
             },
             connectorBuilder: (_, index, ___) => DashedLineConnector(
-              color: processes[index].isCompleted ? Colors.green : null,
+              color: processes[index].isCompleted ? Colors.grey : null,
             ),
           ),
         ),
@@ -248,26 +336,22 @@ class _DeliveryProcesses extends StatelessWidget {
 
 _OrderInfo _data(int id) => _OrderInfo(
       id: id,
-      date: DateTime.now(),
-      driverInfo: _DriverInfo(
-        name: 'Philipe',
-        thumbnailUrl:
-            'https://i.pinimg.com/originals/08/45/81/084581e3155d339376bf1d0e17979dc6.jpg',
-      ),
       deliveryProcesses: [
         _DeliveryProcess(
-          'Package Process',
+          'ស្ថានភាពឯកសារបច្ចុប្បន្ន',
+          'អ៊ួង សុភា, ប្រធាននាយកដ្ឋាន',
+          'នាយកដ្ឋានគោលនយោបាយផ្កាយរណប',
           messages: [
-            _DeliveryMessage('8:30am', 'Package received by driver'),
-            _DeliveryMessage('11:30am', 'Reached halfway mark'),
+            _DeliveryMessage('អ៊ួង សុភា', 'ប្រធាននាយកដ្ឋាន'),
           ],
         ),
 
         _DeliveryProcess(
-          'In Transit',
+          'បង្កើតដោយ',
+          'ឡេង ចំណាន, អគ្គនាយក​',
+          'អគ្គនាយកដ្ឋានគោលនយោបាយផ្កាយរណប​',
           messages: [
-            _DeliveryMessage('13:00pm', 'Driver arrived at destination'),
-            _DeliveryMessage('11:35am', 'Package delivered by m.vassiliades'),
+            _DeliveryMessage('អ៊ួង សុភា', 'ប្រធាននាយកដ្ឋាន'),
           ],
         ),
         _DeliveryProcess.complete(),
@@ -278,38 +362,40 @@ _OrderInfo _data(int id) => _OrderInfo(
 class _OrderInfo {
   const _OrderInfo({
     required this.id,
-    required this.date,
-    required this.driverInfo,
     required this.deliveryProcesses,
   });
 
   final int id;
-  final DateTime date;
-  final _DriverInfo driverInfo;
   final List<_DeliveryProcess> deliveryProcesses;
 }
 
 class _DriverInfo {
   const _DriverInfo({
     required this.name,
-    required this.thumbnailUrl,
+    required this.desc,
   });
 
   final String name;
-  final String thumbnailUrl;
+  final String desc;
 }
 
 class _DeliveryProcess {
   const _DeliveryProcess(
-    this.name, {
+    this.name,
+    this.desc,
+    this.desc1, {
     this.messages = const [],
   });
 
   const _DeliveryProcess.complete()
       : this.name = 'Done',
+        this.desc = 'desc',
+        this.desc1 = 'desc1',
         this.messages = const [];
 
   final String name;
+  final String desc;
+  final String desc1;
   final List<_DeliveryMessage> messages;
 
   bool get isCompleted => name == 'Done';

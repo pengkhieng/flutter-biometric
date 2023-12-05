@@ -9,9 +9,6 @@ class DetailFile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('hello'),
-      ),
       body: Container(
         color: Colors.green.withOpacity(0.2),
         padding: EdgeInsets.all(20),
@@ -32,7 +29,7 @@ class TimelineDetail extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         theme: TimelineThemeData(
-          nodePosition: 0.1,
+          nodePosition: 0,
           connectorTheme: ConnectorThemeData(
             thickness: 3.0,
             color: Colors.green,
@@ -106,7 +103,7 @@ class _EmptyContents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 10.0, top: 10),
-      // height: 200.0,
+      height: 200.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2.0),
         color: Colors.blue,
