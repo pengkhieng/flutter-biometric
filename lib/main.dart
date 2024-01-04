@@ -1,3 +1,4 @@
+import 'package:biolocalauth/Internet_connection/internet_connection_controller.dart';
 import 'package:biolocalauth/custom_pin_keyboard.dart/custom_pin_keyboard.dart';
 import 'package:biolocalauth/detail_file/detail_file.dart';
 import 'package:biolocalauth/home_page2/home_page_controller2.dart';
@@ -24,6 +25,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     Get.lazyPut(() => HomePageController2());
+    Get.lazyPut(() => InternetController());
   }
 
   @override
