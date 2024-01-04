@@ -147,8 +147,10 @@ class _PDFScreenState extends State<PDFScreen> {
           PDFView(
             filePath: widget.path,
             enableSwipe: true,
-            autoSpacing: true,
+            autoSpacing: false,
             pageFling: false,
+            pageSnap: false,
+            fitEachPage: false,
             defaultPage: currentPage!,
             fitPolicy: FitPolicy.BOTH,
             preventLinkNavigation: false,

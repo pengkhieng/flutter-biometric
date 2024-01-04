@@ -20,8 +20,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 8,
-      length: 9,
+      initialIndex: 7,
+      length: 8,
       child: Scaffold(
         appBar: AppBar(
           title: Text('TabBar'),
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
               Tab(icon: Icon(Icons.sunny)),
               Tab(icon: Icon(Icons.color_lens)),
               Tab(icon: Icon(Icons.animation)),
-              Tab(icon: Icon(Icons.ac_unit_rounded)),
+              // Tab(icon: Icon(Icons.ac_unit_rounded)),
               Tab(icon: Icon(Icons.picture_as_pdf)),
             ],
           ),
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
             TreeListPage(),
             CustomBtn(),
             AnimatedPositionedImage(),
-            InternetConnection(),
+            // InternetConnection(),
             PdfViewPage(),
           ],
         ),

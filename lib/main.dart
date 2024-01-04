@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     Get.lazyPut(() => HomePageController2());
-    Get.lazyPut(() => InternetController());
+    // Get.lazyPut(() => InternetController());
   }
 
   @override
