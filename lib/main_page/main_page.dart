@@ -2,6 +2,7 @@ import 'package:biolocalauth/Animation/animation_splash_screen.dart';
 import 'package:biolocalauth/Internet_connection/internet_connection.dart';
 import 'package:biolocalauth/custom_buttom/custom_buttom.dart';
 import 'package:biolocalauth/detail_file/detail_file.dart';
+import 'package:biolocalauth/pdf_thumbnail/pdf_thumbnail.dart';
 import 'package:biolocalauth/pdf_view/pdf_view.dart';
 import 'package:biolocalauth/time_line_title/package_delivery_tracking.dart';
 import 'package:biolocalauth/time_line_title/timeline_status.dart';
@@ -49,6 +50,7 @@ class _MainPageState extends State<MainPage> {
             CustomBtn(),
             AnimatedPositionedImage(),
             // InternetConnection(),
+            // PdfViewPage(),
             PdfViewPage(),
           ],
         ),

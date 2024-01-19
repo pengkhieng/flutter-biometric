@@ -339,19 +339,19 @@ _OrderInfo _data(int id) => _OrderInfo(
       deliveryProcesses: [
         _DeliveryProcess(
           'ស្ថានភាពឯកសារបច្ចុប្បន្ន',
-          'អ៊ួង សុភា, ប្រធាននាយកដ្ឋាន',
+          'ប្រធាននាយកដ្ឋាន',
           'នាយកដ្ឋានគោលនយោបាយផ្កាយរណប',
           messages: [
-            _DeliveryMessage('អ៊ួង សុភា', 'ប្រធាននាយកដ្ឋាន'),
+            _DeliveryMessage('ប្រធាននាយកដ្ឋាន សុភា', 'ប្រធាននាយកដ្ឋាន'),
           ],
         ),
 
         _DeliveryProcess(
           'បង្កើតដោយ',
-          'ឡេង ចំណាន, អគ្គនាយក​',
+          'អគ្គនាយក​',
           'អគ្គនាយកដ្ឋានគោលនយោបាយផ្កាយរណប​',
           messages: [
-            _DeliveryMessage('អ៊ួង សុភា', 'ប្រធាននាយកដ្ឋាន'),
+            _DeliveryMessage('ប្រធាននាយកដ្ឋាន សុភា', 'ប្រធាននាយកដ្ឋាន'),
           ],
         ),
         _DeliveryProcess.complete(),
