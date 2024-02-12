@@ -1,3 +1,4 @@
+import 'package:biolocalauth/custom_pin_keyboard.dart/custom_pin_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
@@ -41,7 +42,22 @@ class _CustomBtnState extends State<CustomBtn> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.dialog(
+                  WillPopScope(
+                    onWillPop: () async => false,
+                    child: CustomPinKeyBoard(
+                      onPinIsMatch: () {
+                        print('hello');
+                      },
+                      automaticImplyLeading: false,
+                    ),
+                  ),
+                  barrierDismissible: false,
+                  useSafeArea: false,
+                  
+                );
+              },
               child: Container(
                 // color: Colors.red,
                 padding: EdgeInsets.all(12.0),

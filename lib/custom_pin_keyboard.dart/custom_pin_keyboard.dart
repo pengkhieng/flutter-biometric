@@ -1,217 +1,317 @@
-import 'package:biolocalauth/home_page2/home_page2.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CustomPinKeyBoard extends StatefulWidget {
-  const CustomPinKeyBoard({super.key});
-
+  VoidCallback? onPinIsMatch;
+  bool? automaticImplyLeading;
+  CustomPinKeyBoard({
+    super.key,
+    this.onPinIsMatch,
+    this.automaticImplyLeading,
+  });
   @override
-  State<CustomPinKeyBoard> createState() => _CustomPinKeyBoardState();
+  _CustomPinKeyBoardState createState() => _CustomPinKeyBoardState();
 }
 
-class _CustomPinKeyBoardState extends State<CustomPinKeyBoard> {
-  String enteredPin = '';
-  String value1 = '';
-  String value2 = '';
+class _CustomPinKeyBoardState extends State<CustomPinKeyBoard>
+    with SingleTickerProviderStateMixin {
+  Widget? topChild;
+  String pin = '';
+  String pinInLocal = '5555';
+  int attempts = 0;
+  bool isLocked = false;
+  int rongTime = 1;
+  bool isclick = false;
+  bool isclickBio = false;
+  late AnimationController _shakeController;
+  late Animation<double> _shakeAnimation;
+  int countdownTimeInSeconds = 1;
+  Timer? _timer;
 
-  /// this widget will be use for each digit
-  Widget numButton(int number) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          if (enteredPin.length < 4) {
-            enteredPin += number.toString();
-          }
-          if (enteredPin.length == 4) {
-            Future.delayed(Duration(milliseconds: 100), () {
-              setState(() {
-                enteredPin = '';
-              });
-            });
-          }
-          if (enteredPin.length == 4) {
-            print(enteredPin);
-            if (value1.isEmpty) {
-              value1 = enteredPin;
-              enteredPin = '';
-            } else if (value1.isNotEmpty && value2.isEmpty) {
-              if (value1 == enteredPin) {
-                value2 = enteredPin;
-                print('PINs matched: $value1');
-                print("go to next route here");
-              } else {
-                print('PINs did not match. Try again.');
-              }
-            }
-          }
-          print('Value 1: $value1');
-          print('Value 2: $value2');
-        });
-      },
-      child: Container(
-        color: Colors.amber,
-        child: Text(
-          number.toString(),
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        // padding: const EdgeInsets.symmetric(horizontal: 24),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.blue.shade100,
+              Colors.blue.shade400,
+            ],
           ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              child: topChild,
+            ),
+            if (isLocked) ...[
+              Text(
+                'Incorrect PIN Code Please Try again in ${countdownTimeInSeconds} seconds later!',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 25,
+              )
+            ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i < 4; i++)
+                  AnimatedBuilder(
+                    animation: _shakeController,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(_shakeAnimation.value, 0),
+                        child: child,
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: i < pin.length ? 6 : 0,
+                          color:
+                              i < pin.length ? Colors.blue : Colors.transparent,
+                        ),
+                        shape: BoxShape.circle,
+                        color: i < pin.length ? Colors.white : Colors.blue,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  for (int i = 1; i <= 9; i++)
+                    NumberButton(
+                      number: '$i',
+                      onPressed: () {
+                        _onNumberPressed('$i');
+                        print('This is num : $i');
+                      },
+                    ),
+                  Container(
+                    margin: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isclickBio ? Colors.blue : Colors.transparent,
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        isclickBio = true;
+                        _callBiometric();
+                        Future.delayed(Duration(milliseconds: 100), () {
+                          setState(() {
+                            isclickBio = false;
+                          });
+                        });
+                      },
+                      icon: Icon(Icons.face),
+                      iconSize: 36,
+                    ),
+                  ),
+                  NumberButton(
+                    number: '0',
+                    onPressed: () {
+                      _onNumberPressed('0');
+                    },
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _onDeletePressed();
+                      isclick = true;
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        setState(() {
+                          isclick = false;
+                        });
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isclick ? Colors.blue : Colors.transparent,
+                      ),
+                      child: Icon(Icons.backspace),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 1, 40, 197),
-              Color.fromARGB(198, 1, 40, 197),
-            ],
-          ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: kToolbarHeight,
-            ),
-            const Center(
-              child: Text(
-                'Enter Your Pin',
-                style: TextStyle(
-                  fontSize: 32,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Spacer(),
+  void dispose() {
+    _shakeController.dispose();
+    _timer?.cancel();
+    super.dispose();
+  }
 
-            /// pin code area
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                4,
-                (index) {
-                  return Container(
-                    margin: const EdgeInsets.all(6.0),
-                    width: 25,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.5),
-                      border: Border.all(
-                        width: 2,
-                        color: index < enteredPin.length
-                            ? Colors.white
-                            : Colors.transparent,
-                      ),
-                      color: index < enteredPin.length
-                          ? Colors.blue
-                          : Colors.grey.withOpacity(0.6),
-                    ),
-                  );
-                },
-              ),
+  @override
+  void initState() {
+    super.initState();
+    _shakeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _shakeAnimation = Tween(begin: -5.0, end: 5.0).animate(
+      CurvedAnimation(
+        parent: _shakeController,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  void _onDeletePressed() {
+    setState(() {
+      if (pin.isNotEmpty) {
+        pin = pin.substring(0, pin.length - 1);
+      }
+    });
+  }
+
+  void _onNumberPressed(String number) {
+    if (isLocked) {
+      return;
+    }
+    setState(() {
+      if (pin.length < 4) {
+        pin += number;
+        print('This is PIN : $pin');
+      }
+      if (pin.length == 4) {
+        if (pin == pinInLocal) {
+          // ======== use func here =========
+          if (widget.onPinIsMatch != null) {
+            widget.onPinIsMatch!();
+          } else {
+            print('No route');
+          }
+          // ======== ending =========
+          print('PIN Code is much');
+          rongTime = 1;
+        } else {
+          setState(() {
+            rongTime = rongTime + 1;
+            if (rongTime == 20) {
+              rongTime = 50;
+              isLocked = true;
+            } else {
+              print(rongTime);
+              if (rongTime > 4) {
+                isLocked = true;
+                startCountdown();
+                Future.delayed(Duration(seconds: 5 * rongTime), () {
+                  setState(() {
+                    isLocked = false;
+                  });
+                });
+              }
+            }
+          });
+        }
+        Future.delayed(Duration(milliseconds: 100), () {
+          setState(() {
+            pin = '';
+          });
+        });
+      }
+    });
+  }
+
+  void startCountdown() {
+    countdownTimeInSeconds = rongTime * 5;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (countdownTimeInSeconds == 0) {
+          _timer!.cancel();
+        } else {
+          countdownTimeInSeconds--;
+        }
+      });
+    });
+  }
+
+  void _callBiometric() {
+    setState(() {
+      print('Show scan faceId');
+    });
+  }
+}
+
+class NumberButton extends StatefulWidget {
+  const NumberButton({
+    super.key,
+    required this.number,
+    required this.onPressed,
+  });
+  final String number;
+  final VoidCallback onPressed;
+
+  @override
+  _NumberButtonState createState() => _NumberButtonState();
+}
+
+class _NumberButtonState extends State<NumberButton> {
+  bool isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) {
+        setState(() {
+          isPressed = true;
+        });
+        widget.onPressed();
+      },
+      onTapUp: (_) {
+        setState(() {
+          isPressed = false;
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          isPressed = false;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isPressed ? Colors.blue.shade400 : Colors.transparent,
+        ),
+        child: Center(
+          child: Text(
+            widget.number,
+            style: TextStyle(
+              fontSize: 32,
+              color: isPressed ? Colors.white : Colors.black,
+              fontWeight: FontWeight.w500,
             ),
-            SizedBox(
-              height: 50,
-            ),
-            Column(
-              children: [
-                for (var i = 0; i < 3; i++)
-                  Container(
-                    height: 100,
-                    margin: EdgeInsets.all(2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        3,
-                        (index) => numButton(1 + 3 * i + index),
-                      ).toList(),
-                    ),
-                  ),
-                SizedBox(
-                  height: 3,
-                ),
-                Container(
-                  color: Colors.amber,
-                  padding: EdgeInsets.symmetric(horizontal: 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          color: Colors.green,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 26,
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => HomePage2(),
-                              );
-                            },
-                            child: const Icon(
-                              Icons.face_unlock_sharp,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: numButton(0),
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            color: Colors.green,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 26,
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    if (enteredPin.isNotEmpty) {
-                                      enteredPin = enteredPin.substring(
-                                          0, enteredPin.length - 1);
-                                    }
-                                  },
-                                );
-                              },
-                              child: const Icon(
-                                Icons.backspace,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:biolocalauth/main_page/main_page.dart';
 import 'package:biolocalauth/sidebar_page/sidebar_page.dart';
 import 'package:biolocalauth/tree_list/tree_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 
 void main() {
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       // home: HomePage(),
       // home: CustomPinKeyBoard(),
       // home: TreeListPage(),
