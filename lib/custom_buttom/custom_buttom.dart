@@ -16,27 +16,6 @@ class _CustomBtnState extends State<CustomBtn> {
     return Container(
       color: Colors.green.withOpacity(0.1),
       child: Center(
-        // child: InkWell(
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       color: Colors.orange,
-        //       borderRadius: BorderRadius.circular(20),
-        //     ),
-        //     padding: EdgeInsets.symmetric(
-        //       horizontal: 100,
-        //       vertical: 40,
-        //     ),
-        //     child: Text(
-        //       'Done',
-        //       style: TextStyle(
-        //         fontWeight: FontWeight.w600,
-        //         color: Colors.white,
-        //         fontSize: 22,
-        //       ),
-        //     ),
-        //   ),
-        //   hoverColor: Colors.red,
-        // ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,14 +27,12 @@ class _CustomBtnState extends State<CustomBtn> {
                     onWillPop: () async => false,
                     child: CustomPinKeyBoard(
                       onPinIsMatch: () {
-                        print('hello');
+                        print("much pin from main screen");
                       },
-                      automaticImplyLeading: false,
                     ),
                   ),
                   barrierDismissible: false,
                   useSafeArea: false,
-                  
                 );
               },
               child: Container(

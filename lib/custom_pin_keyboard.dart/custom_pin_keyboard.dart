@@ -1,14 +1,15 @@
 import 'dart:async';
 
+import 'package:biolocalauth/custom_pin_keyboard.dart/custom_pin_keyboard_controller.dart';
 import 'package:flutter/material.dart';
 
 class CustomPinKeyBoard extends StatefulWidget {
   VoidCallback? onPinIsMatch;
-  bool? automaticImplyLeading;
+  bool? backIconLeading;
   CustomPinKeyBoard({
     super.key,
     this.onPinIsMatch,
-    this.automaticImplyLeading,
+    this.backIconLeading,
   });
   @override
   _CustomPinKeyBoardState createState() => _CustomPinKeyBoardState();
@@ -16,6 +17,7 @@ class CustomPinKeyBoard extends StatefulWidget {
 
 class _CustomPinKeyBoardState extends State<CustomPinKeyBoard>
     with SingleTickerProviderStateMixin {
+  var customPinKeyboardController = CustomPinKeyboardController();
   Widget? topChild;
   String pin = '';
   String pinInLocal = '5555';
@@ -258,6 +260,15 @@ class _CustomPinKeyBoardState extends State<CustomPinKeyBoard>
   void _callBiometric() {
     setState(() {
       print('Show scan faceId');
+      customPinKeyboardController.authenticateWithBiometrics(
+        onBioIsMatch: () {
+          if (widget.onPinIsMatch != null) {
+            widget.onPinIsMatch!();
+          } else {
+            print('No route');
+          }
+        },
+      );
     });
   }
 }
